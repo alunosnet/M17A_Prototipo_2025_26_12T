@@ -12,9 +12,11 @@ namespace M17A_Prototipo_2025_26_12T
 {
     public partial class F_Principal : Form
     {
+        BaseDados bd;
         public F_Principal()
         {
             InitializeComponent();
+            bd = new BaseDados("Biblioteca_12T");
         }
 
     }
