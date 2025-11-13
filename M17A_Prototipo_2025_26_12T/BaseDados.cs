@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Deployment.Application;
 using System.Linq;
 using System.Text;
@@ -12,11 +13,12 @@ namespace M17A_Prototipo_2025_26_12T
     /// <summary>
     /// Responsável por criar a bd, e executar comandos na bd
     /// </summary>
-    internal class BaseDados
+    public class BaseDados
     {
         string NomeBD;
         string Strligacao;
         string CaminhoBD;
+        SqlConnection ligacaoSQL;
         public BaseDados(string NomeBD) 
         {
             this.NomeBD = NomeBD;
@@ -29,6 +31,9 @@ namespace M17A_Prototipo_2025_26_12T
             {
                 CriaBD();
             }
+            ligacaoSQL = new SqlConnection(Strligacao);
+            ligacaoSQL.Open();
+            ligacaoSQL.ChangeDatabase(this.NomeBD);
         }
         /// <summary>
         /// Verifica se a BD existe no catálogo e cria a bd e as tabelas
@@ -70,6 +75,27 @@ namespace M17A_Prototipo_2025_26_12T
             comando = new SqlCommand (sql, ligacaoSQL);
             comando.ExecuteNonQuery();
             comando.Dispose();
+        }
+        public void ExecutarSQL(string sql,List<SqlParameter> parametros=null)
+        {
+            SqlCommand comando = new SqlCommand(sql, ligacaoSQL);
+            if (parametros!=null)
+                comando.Parameters.AddRange(parametros.ToArray());
+
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
+        public DataTable DevolveSQL(string sql,List<SqlParameter> parametros = null)
+        {
+            SqlCommand comando = new SqlCommand(sql, ligacaoSQL);
+            if (parametros != null)
+                comando.Parameters.AddRange(parametros.ToArray());
+            SqlDataReader dados = comando.ExecuteReader();
+            DataTable registos = new DataTable();
+            registos.Load(dados);
+            comando.Dispose();
+            dados.Close();
+            return registos;
         }
     }
 }

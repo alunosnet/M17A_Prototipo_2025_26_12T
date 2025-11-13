@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.tb_titulo = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -44,6 +45,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.tb_isbn = new System.Windows.Forms.TextBox();
             this.tb_guardar = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.lb_feedback = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pb_capa)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,6 +62,7 @@
             // tb_titulo
             // 
             this.tb_titulo.Location = new System.Drawing.Point(152, 29);
+            this.tb_titulo.MaxLength = 50;
             this.tb_titulo.Name = "tb_titulo";
             this.tb_titulo.Size = new System.Drawing.Size(157, 20);
             this.tb_titulo.TabIndex = 1;
@@ -143,6 +147,7 @@
             this.bt_procurar.Size = new System.Drawing.Size(113, 26);
             this.bt_procurar.TabIndex = 3;
             this.bt_procurar.Text = "Procurar...";
+            this.toolTip1.SetToolTip(this.bt_procurar, "Escolher o ficheiro para a capa do livro.");
             this.bt_procurar.UseVisualStyleBackColor = true;
             this.bt_procurar.Click += new System.EventHandler(this.bt_procurar_Click);
             // 
@@ -172,19 +177,29 @@
             // 
             // tb_guardar
             // 
-            this.tb_guardar.Location = new System.Drawing.Point(85, 378);
+            this.tb_guardar.Location = new System.Drawing.Point(86, 349);
             this.tb_guardar.Name = "tb_guardar";
             this.tb_guardar.Size = new System.Drawing.Size(244, 47);
             this.tb_guardar.TabIndex = 5;
             this.tb_guardar.Text = "Guardar";
+            this.toolTip1.SetToolTip(this.tb_guardar, "Adiciona o livro à base de dados.");
             this.tb_guardar.UseVisualStyleBackColor = true;
             this.tb_guardar.Click += new System.EventHandler(this.tb_guardar_Click);
+            // 
+            // lb_feedback
+            // 
+            this.lb_feedback.AutoSize = true;
+            this.lb_feedback.Location = new System.Drawing.Point(13, 425);
+            this.lb_feedback.Name = "lb_feedback";
+            this.lb_feedback.Size = new System.Drawing.Size(0, 13);
+            this.lb_feedback.TabIndex = 6;
             // 
             // F_Livro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lb_feedback);
             this.Controls.Add(this.tb_guardar);
             this.Controls.Add(this.pb_capa);
             this.Controls.Add(this.bt_procurar);
@@ -227,5 +242,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox tb_isbn;
         private System.Windows.Forms.Button tb_guardar;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label lb_feedback;
     }
 }
