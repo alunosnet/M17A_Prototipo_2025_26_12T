@@ -49,7 +49,7 @@ namespace M17A_Prototipo_2025_26_12T.Livro
         private void tb_guardar_Click(object sender, EventArgs e)
         {
             //criar um objeto do tipo livro
-            Livro novo = new Livro();
+            Livro novo = new Livro(bd);
             //preencher o objeto com os dados do form
             novo.titulo = tb_titulo.Text;
             novo.isbn = tb_isbn.Text;
@@ -74,9 +74,20 @@ namespace M17A_Prototipo_2025_26_12T.Livro
             //se não existirem erros guardar na bd
             novo.Adicionar();
             //copiar a imagem da capa para a pasta do programa
+            if (ficheiro_capa!="")
+            {
+                if (System.IO.File.Exists(ficheiro_capa)==true)
+                {
+                    System.IO.File.Copy(ficheiro_capa, novo.capa);
+                }
+            }
             //limpar o formulário
+            LimparForm();
             //atualizar a lista dos livros da datagridview
+            ListarLivros();
             //feedback ao user
+            lb_feedback.Text = "Livro guardado com sucesso.";
+            lb_feedback.ForeColor = Color.Black;
         }
     }
 }

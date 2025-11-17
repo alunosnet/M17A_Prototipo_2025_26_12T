@@ -1,4 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +18,62 @@ namespace M17A_Prototipo_2025_26_12T.Livro
         public Decimal preco { get; set; }
         public string capa {  get; set; }
         public bool estado { get; set; }
-
+        BaseDados bd;
+        public Livro(BaseDados bd)
+        {
+            this.bd = bd;
+        }
         public void Adicionar()
         {
-            throw new NotImplementedException();
+            string sql = @"INSERT INTO Livros(titulo,autor,isbn,ano,data_aquisicao,preco,capa)
+                            VALUES (@titulo,@autor,@isbn,@ano,@data_aquisicao,@preco,@capa)";
+            List<SqlParameter> parametros = new List<SqlParameter>()
+            {
+                new SqlParameter()
+                {
+                    ParameterName ="@titulo",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.VarChar,      //tipo de dados na bd
+                    Value=this.titulo                           //valor do parametro
+                },
+                new SqlParameter()
+                {
+                    ParameterName ="@autor",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.VarChar,      //tipo de dados na bd
+                    Value=this.autor                           //valor do parametro
+                },
+                new SqlParameter()
+                {
+                    ParameterName ="@isbn",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.VarChar,      //tipo de dados na bd
+                    Value=this.isbn                           //valor do parametro
+                },
+                new SqlParameter()
+                {
+                    ParameterName ="@ano",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.Int,      //tipo de dados na bd
+                    Value=this.ano                           //valor do parametro
+                },
+                new SqlParameter()
+                {
+                    ParameterName ="@data_aquisicao",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.Date,      //tipo de dados na bd
+                    Value=this.data_aquisicao                           //valor do parametro
+                },
+                new SqlParameter()
+                {
+                    ParameterName ="@preco",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.Money,      //tipo de dados na bd
+                    Value=this.preco                           //valor do parametro
+                },
+                new SqlParameter()
+                {
+                    ParameterName ="@capa",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.VarChar,      //tipo de dados na bd
+                    Value=this.capa                           //valor do parametro
+                },
+            };
+            //executar comando
+            bd.ExecutarSQL(sql, parametros);
         }
 
         public void Apagar()
@@ -38,12 +90,12 @@ namespace M17A_Prototipo_2025_26_12T.Livro
         {
             List<string> erros = new List<string>();
             //validar o título
-            if (titulo.IsNullOrEmpty() || titulo.Length < 3)
+            if (String.IsNullOrEmpty(titulo) || titulo.Length < 3)
             {
                 erros.Add("O título deve ter pelo menos 3 letras.");
             }
             //validar autor
-            if (autor.IsNullOrEmpty() || autor.Length < 3)
+            if (String.IsNullOrEmpty(autor) || autor.Length < 3)
             {
                 erros.Add("O autor do livro deve ter pelo menos 3 letras.");
             }
