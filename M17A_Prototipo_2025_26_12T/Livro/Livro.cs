@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,7 +79,9 @@ namespace M17A_Prototipo_2025_26_12T.Livro
 
         public void Apagar()
         {
-            throw new NotImplementedException();
+            //Isto é seguro porque o nlivro é um inteiro. Não é possível
+            //fazer SQL Injection num inteiro
+            bd.ExecutarSQL("DELETE FROM LIVROS WHERE nlivro="+nlivro);
         }
 
         public void Editar()
@@ -100,7 +103,7 @@ namespace M17A_Prototipo_2025_26_12T.Livro
                 erros.Add("O autor do livro deve ter pelo menos 3 letras.");
             }
             //validar ano
-            if (ano >0 && ano <= DateTime.Now.Year)
+            if (ano<0 || ano > DateTime.Now.Year)
             {
                 erros.Add("O ano de publicação do livro deve ser maior que zero e menor ou igual ao ano atual.");
             }
@@ -110,6 +113,11 @@ namespace M17A_Prototipo_2025_26_12T.Livro
                 erros.Add("O ISBN do livro deve ter 13 números.");
             }
             return erros;
+        }
+        //Devolve um datatable com todos os registos da tabela livros
+        public DataTable Listar()
+        {
+            return bd.DevolveSQL("SELECT nlivro,titulo,autor,isbn FROM Livros ORDER BY titulo");
         }
     }
 }
