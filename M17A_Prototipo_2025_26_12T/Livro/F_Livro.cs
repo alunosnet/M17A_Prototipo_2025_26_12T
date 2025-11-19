@@ -14,7 +14,7 @@ namespace M17A_Prototipo_2025_26_12T.Livro
     {
         string ficheiro_capa="";
         BaseDados bd;
-        int nlivro_escolhido=0;
+        int nlivro_escolhido=0; //
         public F_Livro(BaseDados bd)
         {
             InitializeComponent();
@@ -44,7 +44,8 @@ namespace M17A_Prototipo_2025_26_12T.Livro
             }
         }
         /// <summary>
-        /// Botão para criar um objeto do tipo livro, validar e guardar os dados na bd
+        /// Botão para criar um objeto do tipo livro, validar e guardar os dados na bd. Para um livro novo
+        /// e para atualizar um livro existente.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -73,14 +74,21 @@ namespace M17A_Prototipo_2025_26_12T.Livro
                 lb_feedback.ForeColor= Color.Red;
                 return;
             }
-            //se não existirem erros guardar na bd
-            novo.Adicionar();
-            //copiar a imagem da capa para a pasta do programa
-            if (ficheiro_capa!="")
+            //verificar se é um livro novo
+            if (nlivro_escolhido==0)
+                //se não existirem erros guardar na bd
+                novo.Adicionar();
+            else
             {
-                if (System.IO.File.Exists(ficheiro_capa)==true)
+                novo.nlivro = nlivro_escolhido;
+                novo.Editar();
+            }
+            //copiar a imagem da capa para a pasta do programa
+            if (ficheiro_capa != "")
+            {
+                if (System.IO.File.Exists(ficheiro_capa) == true)
                 {
-                    System.IO.File.Copy(ficheiro_capa, novo.capa);
+                    System.IO.File.Copy(ficheiro_capa, novo.capa, true);
                 }
             }
             //limpar o formulário
@@ -117,11 +125,24 @@ namespace M17A_Prototipo_2025_26_12T.Livro
         }
         private void dgv_livros_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (dgv_livros.CurrentCell == null) return;
             //guardar o nlivro selecionado
             int linha = dgv_livros.CurrentCell.RowIndex;
             if (linha < 0)
                 return;
             nlivro_escolhido = int.Parse(dgv_livros.Rows[linha].Cells[0].Value.ToString());
+            //Mostrar os dados do livro selecionado
+            Livro l = new Livro(bd);
+            l.nlivro = nlivro_escolhido;
+            l.Procurar();
+            tb_titulo.Text = l.titulo;
+            tb_ano.Text = l.ano.ToString();
+            tb_autor.Text = l.autor;
+            tb_isbn.Text = l.isbn;
+            tb_preco.Text = l.preco.ToString();
+            if (System.IO.File.Exists(l.capa))
+                pb_capa.Image = Image.FromFile(l.capa);
+            dtp_data.Value = l.data_aquisicao;
         }
 
         private void F_Livro_Load(object sender, EventArgs e)
@@ -132,6 +153,7 @@ namespace M17A_Prototipo_2025_26_12T.Livro
         private void bt_eliminar_Click(object sender, EventArgs e)
         {
             EliminarLivro();
+            //TODO: apagar a capa do livro
         }
         //Apaga o livro escolhido (click ou menu contexto)
         private void EliminarLivro()
@@ -149,6 +171,7 @@ namespace M17A_Prototipo_2025_26_12T.Livro
                 apagar.Apagar();
                 nlivro_escolhido = 0;
                 ListarLivros();
+                LimparForm();
             }
         }
     }

@@ -86,7 +86,64 @@ namespace M17A_Prototipo_2025_26_12T.Livro
 
         public void Editar()
         {
-            throw new NotImplementedException();
+            string sql = @"UPDATE Livros SET titulo=@titulo,autor=@autor,
+                            isbn=@isbn,ano=@ano,data_aquisicao=@data_aquisicao,
+                            preco=@preco,capa=@capa
+                            WHERE nlivro=@nlivro";
+            List<SqlParameter> parametros = new List<SqlParameter>()
+            {
+                new SqlParameter()
+                {
+                    ParameterName ="@titulo",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.VarChar,      //tipo de dados na bd
+                    Value=this.titulo                           //valor do parametro
+                },
+                new SqlParameter()
+                {
+                    ParameterName ="@autor",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.VarChar,      //tipo de dados na bd
+                    Value=this.autor                           //valor do parametro
+                },
+                new SqlParameter()
+                {
+                    ParameterName ="@isbn",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.VarChar,      //tipo de dados na bd
+                    Value=this.isbn                           //valor do parametro
+                },
+                new SqlParameter()
+                {
+                    ParameterName ="@ano",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.Int,      //tipo de dados na bd
+                    Value=this.ano                           //valor do parametro
+                },
+                new SqlParameter()
+                {
+                    ParameterName ="@data_aquisicao",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.Date,      //tipo de dados na bd
+                    Value=this.data_aquisicao                           //valor do parametro
+                },
+                new SqlParameter()
+                {
+                    ParameterName ="@preco",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.Money,      //tipo de dados na bd
+                    Value=this.preco                           //valor do parametro
+                },
+                new SqlParameter()
+                {
+                    ParameterName ="@capa",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.VarChar,      //tipo de dados na bd
+                    Value=this.capa                           //valor do parametro
+                },
+                new SqlParameter()
+                {
+                    ParameterName ="@nlivro",               //nome do parametro
+                    SqlDbType = System.Data.SqlDbType.Int,      //tipo de dados na bd
+                    Value=this.nlivro                           //valor do parametro
+                },
+            };
+            //executar comando
+            bd.ExecutarSQL(sql, parametros);
+
         }
 
         public List<string> Validar()
@@ -118,6 +175,27 @@ namespace M17A_Prototipo_2025_26_12T.Livro
         public DataTable Listar()
         {
             return bd.DevolveSQL("SELECT nlivro,titulo,autor,isbn FROM Livros ORDER BY titulo");
+        }
+        /// <summary>
+        /// Pesquisa um livro com base no nlivro e preenche o objeto com os dados da bd
+        /// </summary>
+        public void Procurar()
+        {
+            string sql = "SELECT * FROM Livros WHERE nlivro=" + nlivro;
+            DataTable dados = bd.DevolveSQL(sql);
+            if (dados!=null && dados.Rows.Count>0)
+            {
+                DataRow linha = dados.Rows[0];
+                this.titulo = linha["titulo"].ToString();
+                this.isbn = linha["isbn"].ToString();
+                this.preco = Decimal.Parse(linha["preco"].ToString());
+                this.autor = linha["autor"].ToString();
+                this.capa = linha["capa"].ToString();
+                this.data_aquisicao = DateTime.Parse(linha["data_aquisicao"].ToString());
+                this.ano = int.Parse(linha["ano"].ToString());
+                this.estado = bool.Parse(linha["estado"].ToString());
+            }
+            //TODO: o que fazer caso o livro não seja encontrado?
         }
     }
 }

@@ -50,7 +50,6 @@
             this.dgv_livros = new System.Windows.Forms.DataGridView();
             this.tb_pesquisa = new System.Windows.Forms.TextBox();
             this.bt_eliminar = new System.Windows.Forms.Button();
-            this.bt_editar = new System.Windows.Forms.Button();
             this.bt_imprimir = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pb_capa)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_livros)).BeginInit();
@@ -226,15 +225,6 @@
             this.bt_eliminar.UseVisualStyleBackColor = true;
             this.bt_eliminar.Click += new System.EventHandler(this.bt_eliminar_Click);
             // 
-            // bt_editar
-            // 
-            this.bt_editar.Location = new System.Drawing.Point(486, 351);
-            this.bt_editar.Name = "bt_editar";
-            this.bt_editar.Size = new System.Drawing.Size(144, 45);
-            this.bt_editar.TabIndex = 9;
-            this.bt_editar.Text = "Editar";
-            this.bt_editar.UseVisualStyleBackColor = true;
-            // 
             // bt_imprimir
             // 
             this.bt_imprimir.Location = new System.Drawing.Point(636, 351);
@@ -250,7 +240,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.bt_imprimir);
-            this.Controls.Add(this.bt_editar);
             this.Controls.Add(this.bt_eliminar);
             this.Controls.Add(this.tb_pesquisa);
             this.Controls.Add(this.dgv_livros);
@@ -304,7 +293,6 @@
         private System.Windows.Forms.DataGridView dgv_livros;
         private System.Windows.Forms.TextBox tb_pesquisa;
         private System.Windows.Forms.Button bt_eliminar;
-        private System.Windows.Forms.Button bt_editar;
         private System.Windows.Forms.Button bt_imprimir;
     }
 }
