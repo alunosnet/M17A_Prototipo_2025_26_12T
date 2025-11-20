@@ -70,7 +70,25 @@ namespace M17A_Prototipo_2025_26_12T
                 preco money check (preco>=0),
                 capa varchar(500),
                 estado bit default 1
-                )";
+                );
+                CREATE TABLE Leitores(
+                    nleitor int identity primary key,
+                    nome varchar(100) not null,
+                     data_nascimento date,
+                     fotografia varbinary(max),
+                    estado bit default 1
+                );
+                CREATE TABLE Emprestimos(
+                    nemprestimo int identity primary key,
+                    data_emprestimo date default getdate(),
+                    data_devolve date,
+                    estado bit default 1,
+                    nleitor int references Leitores(nleitor),
+                    nlivro int references Livros(nlivro)
+                );
+                ";
+            //Leitores(nleitor,nome,data_nascimento,fotografia,estado)
+            //Emprestimos(nemprestimo,data_emprestimo,data_devolve,estado,nleitor,nlivro)
             //TODO: faltam as tabelas leitores e empréstimos
             comando = new SqlCommand (sql, ligacaoSQL);
             comando.ExecuteNonQuery();

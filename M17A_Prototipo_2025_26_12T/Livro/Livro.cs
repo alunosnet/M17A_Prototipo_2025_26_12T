@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -196,6 +197,21 @@ namespace M17A_Prototipo_2025_26_12T.Livro
                 this.estado = bool.Parse(linha["estado"].ToString());
             }
             //TODO: o que fazer caso o livro não seja encontrado?
+        }
+        public DataTable Procurar(string campo,string texto_pesquisar)
+        {
+            string sql = "SELECT nlivro,titulo,autor,isbn FROM Livros WHERE ";
+            sql += campo + " LIKE @pesquisa";
+            List<SqlParameter> pararmetros = new List<SqlParameter>()
+            {
+                new SqlParameter()
+                {
+                    ParameterName = "@pesquisa",
+                    SqlDbType = SqlDbType.VarChar,
+                    Value = "%" + texto_pesquisar + "%",
+                }
+            };
+            return bd.DevolveSQL(sql, pararmetros);
         }
     }
 }

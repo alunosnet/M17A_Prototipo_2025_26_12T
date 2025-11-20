@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(F_Livro));
             this.label1 = new System.Windows.Forms.Label();
             this.tb_titulo = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -51,6 +52,8 @@
             this.tb_pesquisa = new System.Windows.Forms.TextBox();
             this.bt_eliminar = new System.Windows.Forms.Button();
             this.bt_imprimir = new System.Windows.Forms.Button();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pb_capa)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_livros)).BeginInit();
             this.SuspendLayout();
@@ -161,6 +164,7 @@
             this.pb_capa.Location = new System.Drawing.Point(153, 197);
             this.pb_capa.Name = "pb_capa";
             this.pb_capa.Size = new System.Drawing.Size(177, 114);
+            this.pb_capa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_capa.TabIndex = 4;
             this.pb_capa.TabStop = false;
             // 
@@ -214,6 +218,7 @@
             this.tb_pesquisa.Name = "tb_pesquisa";
             this.tb_pesquisa.Size = new System.Drawing.Size(422, 20);
             this.tb_pesquisa.TabIndex = 8;
+            this.tb_pesquisa.TextChanged += new System.EventHandler(this.tb_pesquisa_TextChanged);
             // 
             // bt_eliminar
             // 
@@ -233,6 +238,22 @@
             this.bt_imprimir.TabIndex = 9;
             this.bt_imprimir.Text = "Imprimir";
             this.bt_imprimir.UseVisualStyleBackColor = true;
+            this.bt_imprimir.Click += new System.EventHandler(this.bt_imprimir_Click);
+            // 
+            // printDocument1
+            // 
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+            // 
+            // printPreviewDialog1
+            // 
+            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog1.Document = this.printDocument1;
+            this.printPreviewDialog1.Enabled = true;
+            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
+            this.printPreviewDialog1.Name = "printPreviewDialog1";
+            this.printPreviewDialog1.Visible = false;
             // 
             // F_Livro
             // 
@@ -294,5 +315,7 @@
         private System.Windows.Forms.TextBox tb_pesquisa;
         private System.Windows.Forms.Button bt_eliminar;
         private System.Windows.Forms.Button bt_imprimir;
+        private System.Drawing.Printing.PrintDocument printDocument1;
+        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
     }
 }
