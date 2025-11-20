@@ -1,4 +1,5 @@
-﻿using M17A_Prototipo_2025_26_12T.Livro;
+﻿using M17A_Prototipo_2025_26_12T.Emprestimo;
+using M17A_Prototipo_2025_26_12T.Livro;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,6 +29,12 @@ namespace M17A_Prototipo_2025_26_12T
         private void livrosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             F_Livro f = new F_Livro(bd);
+            f.Show();
+        }
+
+        private void empréstimosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            F_Emprestimo f=new F_Emprestimo(bd);
             f.Show();
         }
     }
