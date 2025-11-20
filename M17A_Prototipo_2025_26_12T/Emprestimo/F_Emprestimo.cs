@@ -33,7 +33,10 @@ namespace M17A_Prototipo_2025_26_12T.Emprestimo
                 Livro.Livro novo = new Livro.Livro(bd);
                 novo.nlivro = int.Parse(dr["nlivro"].ToString());
                 novo.titulo = dr["titulo"].ToString();
-                cb_livro.Items.Add(novo);
+                novo.estado = bool.Parse(dr["estado"].ToString());
+                //só listar o livro se não está emprestado
+                if (novo.estado==true)
+                    cb_livro.Items.Add(novo);
             }
         }
         /// <summary>
@@ -41,10 +44,34 @@ namespace M17A_Prototipo_2025_26_12T.Emprestimo
         /// </summary>
         void PreencheCBLeitores()
         {
-
+            cb_leitor.Items.Clear();
+            Leitor.Leitor l = new Leitor.Leitor(bd);
+            DataTable dados = l.Listar();
+            foreach(DataRow dr in dados.Rows)
+            {
+                Leitor.Leitor novo = new Leitor.Leitor(bd);
+                novo.nleitor = int.Parse(dr["nleitor"].ToString());
+                novo.nome = dr["nome"].ToString();
+                novo.estado = bool.Parse(dr["estado"].ToString());
+                if (novo.estado == true)
+                    cb_leitor.Items.Add(novo);
+            }
         }
-        private void bt_emprestar_Click(object sender, EventArgs e)
+        private void bt_emprestar_Click(object sender, EventArgs ev)
         {
+            //Livro selecionado
+            if (cb_leitor.SelectedIndex==-1 || cb_livro.SelectedIndex == -1)
+            {
+                MessageBox.Show("Tem de escolher um livro e um leitor");
+                return;
+            }
+            Leitor.Leitor leitor_escolhido = cb_leitor.SelectedItem as Leitor.Leitor;
+            Livro.Livro livro_escolhido = cb_livro.SelectedItem as Livro.Livro;
+            Emprestimo e = new Emprestimo(bd);
+            e.nlivro = livro_escolhido.nlivro;
+            e.nleitor = leitor_escolhido.nleitor;
+            e.RegistarEmprestimo();
+            PreencheCBLivros();
 
         }
     }

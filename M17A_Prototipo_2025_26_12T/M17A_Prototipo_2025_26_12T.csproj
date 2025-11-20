@@ -186,6 +186,7 @@
     </Compile>
     <Compile Include="IItem.cs" />
     <Compile Include="Impressora.cs" />
+    <Compile Include="Leitor\Leitor.cs" />
     <Compile Include="Livro\F_Livro.cs">
       <SubType>Form</SubType>
     </Compile>
